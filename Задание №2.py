@@ -1,15 +1,12 @@
+# Задание №2
+
 import os
 from time import sleep
 class robot:
     def __init__(self,x,y) -> None:
-        self.matrix = [['.' for x in range(101)] for y in range(101)]
-        self.first_position = self.matrix
-        self.second_position = self.matrix
-        self.a = {y:[x]}
-        for m in self.a:
-            for n in self.a[m]:
-                if n in range(0, 101):
-                    self.first_position[m][n] = '█'
+        self.first_position = [['.' for x in range(101)] for y in range(101)]
+        self.second_position = [['.' for x in range(101)] for y in range(101)]
+        self.first_position[y][x] = '█'
         self.location = [x, y]
         self.d = {
             'n':lambda x, y: [x,0] if y-1<0 else [x,100] if y-1>100 else [x,y-1],
@@ -20,18 +17,16 @@ class robot:
         
     def move(self, movements):
         for move in movements: self.location = self.d[move](self.location[0],self.location[1])
-        for m in self.a:
-            for n in self.a[m]:
-                if n in range(0, 101):
-                    self.second_position[m][n] = '█'
-        return self.first_position,self.second_position,[str(x) for x in self.location]
+        self.second_position[self.location[1]][self.location[0]] = '█'
+        return [self.first_position,self.second_position,[str(x) for x in self.location]]
         
-antoha = robot(10,10)
+antoha = robot(50,50)
 res = antoha.move('sssssssss')
-for y in res[0]: print(''.join(y))
+os.system('clear')
+for i in res[0]: print(''.join(i))
 sleep(3)
 os.system('clear')
-for y in res[1]: print(''.join(y))
+for i in res[1]: print(''.join(i))
 sleep(3)
 os.system('clear')
 print(f'Текущие координаты: x = {res[2][0]}, y = {res[2][1]}')
